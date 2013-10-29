@@ -21,7 +21,7 @@ window.setTimeout(function () {
 }, 1000);
 */
 
-var DebugChannel.js = (function ($) {
+var DebugChannel = (function ($) {
 
     "use strict";
 
