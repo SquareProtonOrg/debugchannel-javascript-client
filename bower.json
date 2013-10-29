@@ -1,7 +1,7 @@
 {
   "name": "debugchannel-javascript-client",
   "version": "0.1.0",
-  "main": "debugChannel.js",
+  "main": "DebugChannel.js",
   "ignore": [
   ]
 }
