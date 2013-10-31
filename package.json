@@ -1,0 +1,7 @@
+{
+    "name": "debugchannel-javascript-client",
+    "version": "0.1.2",
+    "description": "Javascript client for debugchannel. Boom.",
+    "devDependencies": {
+    }
+}
