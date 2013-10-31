@@ -5,23 +5,23 @@ window.setTimeout(function () {
 
     var d = new D('192.168.2.17', 'jstest');
     d.clear();
-    d.log("something");
-    d.log($('.ubercontrol').clone().get(0));
-    d.log(1);
-    d.log(null);
-    d.log(undefined);
-    d.log(NaN);
-    d.log(1.55);
-    d.log({n: 6});
-    d.log(new Object());
-    d.log(function(){return "spanner";});
-    d.log(arguments);
-    d.log([1,2,3])
+    d.explore("something");
+    d.explore($('.ubercontrol').clone().get(0));
+    d.explore(1);
+    d.explore(null);
+    d.explore(undefined);
+    d.explore(NaN);
+    d.explore(1.55);
+    d.explore({n: 6});
+    d.explore(new Object());
+    d.explore(function(){return "spanner";});
+    d.explore(arguments);
+    d.explore([1,2,3])
 
 }, 1000);
 */
 
-var DebugChannel = (function ($) {
+var DebugChannel = (function () {
 
     "use strict";
 
@@ -46,10 +46,6 @@ var DebugChannel = (function ($) {
         var ex = options.e || null, guess = !!options.guess;
         var p = new printStackTrace.implementation(), result = p.run(ex);
         return (guess) ? p.guessAnonymousFunctions(result) : result;
-    }
-
-    if (typeof module !== "undefined" && module.exports) {
-        module.exports = printStackTrace;
     }
 
     printStackTrace.implementation = function() {
@@ -496,25 +492,28 @@ var DebugChannel = (function ($) {
 
     function makeRequestJQuery (data, url) {
         // make the ajax request
-        $.ajax({
+        jQuery.ajax({
             url: url,
             type: 'post',
             contentType: 'application/json; charset=utf-8',
             dataType: "json",
             data: JSON.stringify(data),
             complete: function (jqxhttp, state) {
-                console.log(state);
             },
         });
     }
 
     function nativeRequestReadyStateChange() {
         if (this.readyState === 4) {
-            var response = JSON.parse(this.responseText);
+            var response;
+            try {
+                response = JSON.parse(this.responseText);
+            } catch (e) {
+                response = this.responseText;
+            }
             if (this.status === 200) {
                 // console.log( response )
             } else {
-                console.log( this.statusText, this.response );
             }
         }
     }
@@ -612,7 +611,7 @@ var DebugChannel = (function ($) {
         },
         makeRequest: function(data) {
             makeRequestNative(data, this.getRequestUrl());
-            // makeRequestJQuery(data, this.getRequestUrl);
+            // makeRequestJQuery(data, this.getRequestUrl());
         },
         makeAndPrepareRequest: function(data) {
 
@@ -632,7 +631,7 @@ var DebugChannel = (function ($) {
         clear: function () {
             this.makeAndPrepareRequest({ handler: "clear" });
         },
-        log: function (thingToLog, tags) {
+        explore: function (thingToLog, tags) {
 
             var type = getType(thingToLog);
             var value = getValue(type, thingToLog);
@@ -651,6 +650,10 @@ var DebugChannel = (function ($) {
         },
     };
 
+    if (typeof module !== "undefined" && module.exports) {
+        module.exports = D;
+    }
+
     return D;
 
-})(jQuery);
+})();

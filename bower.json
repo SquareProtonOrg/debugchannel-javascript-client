@@ -1,6 +1,5 @@
 {
   "name": "debugchannel-javascript-client",
-  "version": "0.1.0",
   "main": "DebugChannel.js",
   "ignore": [
   ]
